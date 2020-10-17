@@ -1,4 +1,6 @@
+import express from 'express';
 import * as grpc from 'grpc';
+import { ExpressionStatement } from 'typescript';
 import * as hello_grpc_pb from './proto/helloworld_grpc_pb';
 import * as hello_pb from './proto/helloworld_pb';
 
@@ -16,6 +18,10 @@ class HelloService implements hello_grpc_pb.IGreeterServer
 }
 
 (() => {
+
+    const app:express.Express = express();
+
+    
 
     const server = new grpc.Server();
     server.bind(
