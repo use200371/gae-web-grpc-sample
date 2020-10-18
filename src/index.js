@@ -1,7 +1,7 @@
 import {HelloRequest, HelloReply} from './proto/helloworld_pb.js';
 import {GreeterClient} from './proto/helloworld_grpc_web_pb.js';
 
-var client = new GreeterClient('http://' + window.location.hostname + ':8080', null, null);
+var client = new GreeterClient('http://' + window.location.hostname + ':8000', null, null);
 
 // simple unary call
 var request = new HelloRequest();
@@ -18,15 +18,15 @@ if (err) {
 
 
 // server streaming call
-var streamRequest = new RepeatHelloRequest();
-streamRequest.setName('World');
-streamRequest.setCount(5);
+// var streamRequest = new RepeatHelloRequest();
+// streamRequest.setName('World');
+// streamRequest.setCount(5);
 
-var stream = client.sayRepeatHello(streamRequest, {});
-stream.on('data', (response) => {
-console.log(response.getMessage());
-});
-stream.on('error', (err) => {
-console.log(`Unexpected stream error: code = ${err.code}` +
-           `, message = "${err.message}"`);
-});
+// var stream = client.sayRepeatHello(streamRequest, {});
+// stream.on('data', (response) => {
+// console.log(response.getMessage());
+// });
+// stream.on('error', (err) => {
+// console.log(`Unexpected stream error: code = ${err.code}` +
+//            `, message = "${err.message}"`);
+// });
