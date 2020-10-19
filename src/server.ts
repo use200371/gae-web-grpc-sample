@@ -20,6 +20,26 @@ class HelloService implements hello_grpc_pb.IGreeterServer
     }
 }
 
+const client = new hello_grpc_pb.GreeterClient(
+    '127.0.0.1:8080',
+    grpc.credentials.createInsecure(),
+);
+
+class InProxy
+{
+    proxy(req:express.Request, res:express.Response, next:express.NextFunction)
+    {
+        const req2 = new hello_pb.HelloRequest();
+        req2.setName('Hello World');
+        
+        client.sayHello(req2, function(error, result) {
+            if (error) console.log('Error: ', error);
+            else res.json(result.toObject());
+        });        
+        next();
+    }
+}
+
 (() => {
 
     const app:express.Express = express();
@@ -31,10 +51,12 @@ class HelloService implements hello_grpc_pb.IGreeterServer
 
     app.listen(8000, async ()=> {
         console.log(__dirname);
+        const test = new InProxy();
+        app.use(test.proxy);
         app.use(express.static(path.join(__dirname, '../dist')));
         app.use(morgan('combined'));
 
-        app.use(grpcExpress(client));
+        //app.use(grpcExpress(client));
         console.log('OK');
     });
 
