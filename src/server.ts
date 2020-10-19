@@ -3,6 +3,7 @@ import * as grpc from 'grpc';
 import * as hello_grpc_pb from './proto/helloworld_grpc_pb';
 import * as hello_pb from './proto/helloworld_pb';
 import path from 'path';
+import morgan from 'morgan';
 
 const grpcExpress = require('grpc-express');
 
@@ -31,6 +32,7 @@ class HelloService implements hello_grpc_pb.IGreeterServer
     app.listen(8000, async ()=> {
         console.log(__dirname);
         app.use(express.static(path.join(__dirname, '../dist')));
+        app.use(morgan('combined'));
 
         app.use(grpcExpress(client));
         console.log('OK');
