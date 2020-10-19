@@ -29,13 +29,28 @@ class InProxy
 {
     proxy(req:express.Request, res:express.Response, next:express.NextFunction)
     {
-        const req2 = new hello_pb.HelloRequest();
-        req2.setName('Hello World');
+        (async ()=> {
+
+            res.setHeader('Content-Type', 'application/json');
+
+            const req2 = new hello_pb.HelloRequest();
+            req2.setName('Hello World');
+            
+            client.sayHello(req2, function(error, result) {
+                if (error) 
+                {
+                    console.log('Error: ', error);
+                }
+                else 
+                {
+                    const ret = result.toObject();
+                    res.json(ret);
+                    return;
+                }
+            });
+
+        })();
         
-        client.sayHello(req2, function(error, result) {
-            if (error) console.log('Error: ', error);
-            else res.json(result.toObject());
-        });        
         next();
     }
 }
