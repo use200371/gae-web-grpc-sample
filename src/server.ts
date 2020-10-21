@@ -92,10 +92,12 @@ class InProxy
                 else 
                 {
                     console.log(result.toObject());
+                    console.log(JSON.stringify(result.toObject()));
+                    const ret = new Buffer(JSON.stringify(result.toObject())).toString("base64");
                     //const ret =  result.toObject();
                     //const ret = Buffer.from(result.toObject()).toString('base64')
                     //res.json(ret);
-                    res.status(200).send(result);
+                    res.status(200).send(ret);
                     return;
                 }
             });
