@@ -3,9 +3,15 @@ import {GreeterClient} from './proto/helloworld_grpc_web_pb.js';
 
 var client = new GreeterClient('http://' + window.location.hostname + ':' + window.location.port, null, null);
 
+const enableDevTools = window.__GRPCWEB_DEVTOOLS__ || (() => {});
+
+enableDevTools([
+  client,
+]);
+
 // simple unary call
 var request = new HelloRequest();
-request.setName('World');
+request.setName('World k-ozeki');
 
 client.sayHello(request, {}, (err, response) => {
 if (err) {

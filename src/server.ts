@@ -6,6 +6,9 @@ import path from 'path';
 import morgan from 'morgan';
 
 const grpcExpress = require('grpc-express');
+//const expressCors = require('cors')
+const grpcWebMiddleware = require('grpc-web-middleware')
+
 
 const HTTP_PORT:Number = 9000;
 
@@ -82,7 +85,7 @@ class InProxy
             res.setHeader('Content-Type', 'application/grpc-web-text');
 
             const grpcreq = new hello_pb.HelloRequest();
-            grpcreq.setName('Hello World');
+            grpcreq.setName('Hi! Request Data Name.');
             
             const test = await client.sayHello(grpcreq,  (error, result) => {
                 if (error) 
@@ -122,7 +125,10 @@ class InProxy
     app.listen(HTTP_PORT, async ()=> {
         console.log(__dirname);
         const test = new InProxy(client);
-        app.use(test.proxy.bind(test));
+        //app.use(test.proxy.bind(test));
+        //app.use(expressCors())
+        app.use(grpcWebMiddleware('http://127.0.0.1:8080'))
+
         app.use(express.static(path.join(__dirname, '../dist')));
         app.use(morgan('combined'));
 
