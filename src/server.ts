@@ -124,6 +124,7 @@ class InProxy
         app.use(grpcWebMiddleware('http://127.0.0.1:8080'))
 
         app.use(express.static(path.join(__dirname, '../dist')));
+        app.use(express.static(path.join(__dirname, '../public')));
 
         console.log('http://localhost:' + HTTP_PORT + " browser access!");
     });
