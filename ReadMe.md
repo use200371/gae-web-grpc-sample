@@ -18,6 +18,8 @@ gitがインストールされている場合は、「git bash」をVSCodeに設
 cd gae-web-grpc-sample
 ```
 
+[gRPC-Web Release](https://github.com/grpc/grpc-web/releases)から「protoc-gen-grpc-web-xxx-windows-x86_64.exe」をダウンロードして「protoc-gen-grpc-web.exe」に名前を変更してカレントディレクトリに配置して下さい。sd
+
 npxコマンドがインストールされていない場合はグローバルへ下記のコマンドでインストールします。
 
 ```
