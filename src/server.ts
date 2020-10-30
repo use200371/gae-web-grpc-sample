@@ -3,12 +3,8 @@ import * as grpc from 'grpc';
 import * as hello_grpc_pb from './proto/helloworld_grpc_pb';
 import * as hello_pb from './proto/helloworld_pb';
 import path from 'path';
-import morgan from 'morgan';
 
-const grpcExpress = require('grpc-express');
-//const expressCors = require('cors')
 const grpcWebMiddleware = require('grpc-web-middleware')
-
 
 const HTTP_PORT:Number = 9000;
 
@@ -123,17 +119,13 @@ class InProxy
     );
 
     app.listen(HTTP_PORT, async ()=> {
-        console.log(__dirname);
-        const test = new InProxy(client);
-        //app.use(test.proxy.bind(test));
-        //app.use(expressCors())
+
+        //const test = new InProxy(client);
         app.use(grpcWebMiddleware('http://127.0.0.1:8080'))
 
         app.use(express.static(path.join(__dirname, '../dist')));
-        app.use(morgan('combined'));
 
-        //app.use(grpcExpress(client));
-        console.log('OK');
+        console.log('http://localhost:' + HTTP_PORT + " browser access!");
     });
 
     const server = new grpc.Server();
@@ -148,21 +140,5 @@ class InProxy
     );
 
     server.start();
-
-    console.log('gRPC Server Start')
-
-//     // 8080番ポートで待ちうける
-// app.listen(8080, () => {
-//     console.log('Running at Port 8080...');
-//   });
-  
-//   // 静的ファイルのルーティング
-//   app.use(express.static(path.join(__dirname, 'public')));
-  
-//   // その他のリクエストに対する404エラー
-//   app.use((req, res) => {
-//     res.sendStatus(404);
-//   });
-  
 
 })();
